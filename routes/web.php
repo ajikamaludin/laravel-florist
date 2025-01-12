@@ -15,6 +15,7 @@ use App\Http\Controllers\Default\ProfileController;
 use App\Http\Controllers\Default\RoleController;
 use App\Http\Controllers\Default\SettingController;
 use App\Http\Controllers\Default\UserController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 // define module as main route
@@ -24,6 +25,7 @@ Route::get('/', function () {
 });
 
 Route::get('files/{file}', [FileController::class, 'show'])->name('file.show');
+Route::get('/test', [GeneralController::class, 'sheets']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [GeneralController::class, 'index'])->name('dashboard');

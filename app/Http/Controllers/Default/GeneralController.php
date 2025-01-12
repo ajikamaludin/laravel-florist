@@ -7,7 +7,7 @@ use App\Models\Customer;
 use App\Models\Default\Role;
 use App\Models\Default\User;
 use App\Models\Order;
-use Illuminate\Support\Facades\Concurrency;
+use Revolution\Google\Sheets\Facades\Sheets;
 
 class GeneralController extends Controller
 {
@@ -29,5 +29,14 @@ class GeneralController extends Controller
     public function maintance()
     {
         return inertia('Maintance');
+    }
+
+    public function sheets()
+    {
+        $sheets = Sheets::spreadsheet('1RjlP9mheamb8_XNbtj06Re_sYFAwzcrbLXVx2zHgiqQ')
+            ->sheet('Sheet1')
+            ->get();
+
+        dd($sheets);
     }
 }

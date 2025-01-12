@@ -108,7 +108,7 @@ export default function FormModal(props) {
                             params={{
                                 table: 'roles',
                                 columns: 'id|name',
-                                orderby: 'created_at.asc',
+                                orderby: 'updated_at.desc',
                             }}
                         />
                         <SelectModalInput
@@ -128,7 +128,7 @@ export default function FormModal(props) {
                             params={{
                                 table: 'stores',
                                 columns: 'id|name|city',
-                                orderby: 'created_at.asc',
+                                orderby: 'updated_at.desc',
                             }}
                         />
                     </>

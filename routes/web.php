@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CourierController;
 use App\Http\Controllers\TypeStatusController;
@@ -53,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // #Admin
+Route::resource('orders', OrderController::class);
 Route::delete('customers/{customer}', [CustomerController::class,'destroy'])->name('customers.destroy');
 Route::put('customers/{customer}', [CustomerController::class,'update'])->name('customers.update');
 Route::post('customers', [CustomerController::class,'store'])->name('customers.store');

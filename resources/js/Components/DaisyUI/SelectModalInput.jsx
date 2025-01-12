@@ -29,7 +29,7 @@ import { useDebounce, useSelectApiPagination } from '@/hooks'
  *     params={{
  *         table: 'roles',
  *         columns: 'id|name',
- *         orderby: 'created_at.asc',
+ *         orderby: 'updated_at.desc',
  *     }}
  * />
  */
@@ -47,11 +47,14 @@ export default function SelectModalInput(props) {
         params,
         placeholder = '',
         size,
+        readOnly = false,
     } = props
 
     const [headers] = useState(
         params.columns.split('|').filter((i) => i !== 'id')
     )
+
+    const [table_headers, setTableHeaders] = useState([])
 
     const [selected, setSelected] = useState('')
 
@@ -80,6 +83,14 @@ export default function SelectModalInput(props) {
         toggle()
     }
 
+    useEffect(() => {
+        if (isEmpty(params.headers)) {
+            setTableHeaders(params.columns.split('|').filter((i) => i !== 'id'))
+            return
+        }
+        setTableHeaders(params.headers.split('|'))
+    }, [params])
+
     // in state isOpen change
     useEffect(() => {
         if (isOpen === true) {
@@ -101,6 +112,7 @@ export default function SelectModalInput(props) {
 
             setSelected(
                 display_name
+                    .filter((h) => isEmpty(value[h]) === false)
                     .map((h) => {
                         return value[h]
                     })
@@ -111,6 +123,7 @@ export default function SelectModalInput(props) {
         }
     }, [value])
 
+    const showRemoveBtnAndReadOnly = readOnly === false && showRemoveBtn
     return (
         <>
             <div className="form-control">
@@ -121,13 +134,16 @@ export default function SelectModalInput(props) {
                     <input
                         className={`input input-bordered w-full ${
                             error && 'input-error'
-                        } ${showRemoveBtn && 'border-r-0 rounded-r-none'}`}
+                        } ${
+                            showRemoveBtnAndReadOnly &&
+                            'border-r-0 rounded-r-none'
+                        }`}
                         value={selected}
-                        onClick={toggle}
+                        onClick={readOnly ? null : toggle}
                         placeholder={placeholder}
                         readOnly={true}
                     />
-                    {showRemoveBtn && (
+                    {showRemoveBtnAndReadOnly && (
                         <div
                             className={`flex items-center justify-center border border-l-0 rounded-r-lg w-10 ${
                                 error ? 'border-red-400' : 'border-gray-700'
@@ -156,7 +172,7 @@ export default function SelectModalInput(props) {
                         <table className="table mt-3">
                             <thead>
                                 <tr>
-                                    {headers.map((h) => (
+                                    {table_headers.map((h) => (
                                         <th
                                             className="capitalize"
                                             key={`header-${h}`}
@@ -173,7 +189,7 @@ export default function SelectModalInput(props) {
                                         key={item.id}
                                         className="hover"
                                     >
-                                        {headers.map((h) => (
+                                        {table_headers.map((h) => (
                                             <td key={`${item.id}-${h}`}>
                                                 {item[h]}
                                             </td>

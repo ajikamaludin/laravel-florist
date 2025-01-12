@@ -20,6 +20,7 @@ export function useModalState(state = false) {
     }
 
     const [data, setData] = useState(null)
+    const [metadata, setMetadata] = useState(null)
 
     return {
         isOpen,
@@ -27,6 +28,8 @@ export function useModalState(state = false) {
         setIsOpen,
         data,
         setData,
+        metadata,
+        setMetadata,
     }
 }
 

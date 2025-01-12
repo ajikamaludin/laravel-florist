@@ -35,13 +35,14 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user() ? $request->user()->load(['role.permissions']) : $request->user(),
+                'user' => $request->user() ? $request->user()->load(['role.permissions', 'store']) : $request->user(),
                 'login_at' => Session::get('user_login_at', ''),
                 'jwt_token' => UserJwtService::getActiveToken(),
                 'jwt_prefix' => UserJwtService::KEYPREFIX,
             ],
             'flash' => [
                 'message' => fn() => Session::get('message'),
+                'data' => fn() => Session::get('data'),
             ],
             'app' => Setting::getByKeys(['app_name', 'app_logo']),
             'navigation' => MenuConstant::all()

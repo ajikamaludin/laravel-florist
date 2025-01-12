@@ -24,6 +24,7 @@ return new class extends Migration
             $table->ulid('created_by')->nullable();
             $table->ulid('updated_by')->nullable();
             $table->ulid('deleted_by')->nullable();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

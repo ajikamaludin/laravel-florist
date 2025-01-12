@@ -8,4 +8,4 @@
 [x] crud type status
 [x] crud customer
 [x] crud toko
-[ ] crud order + limitasi / 2 view
+[x] crud order + limitasi / 2 view

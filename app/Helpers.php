@@ -34,3 +34,10 @@ if (!function_exists('formatDate')) {
         return \Illuminate\Support\Carbon::parse($date)->format('d-m-Y');
     }
 }
+
+if (!function_exists('formatNum')) {
+    function formatNum($number, $length)
+    {
+        return str_pad($number, $length, '0', STR_PAD_LEFT);
+    }
+}

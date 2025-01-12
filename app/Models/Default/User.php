@@ -8,12 +8,13 @@ use App\Models\Store;
 use App\Models\Traits\UserTrackable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasUlids, Notifiable, UserTrackable;
+    use HasFactory, HasUlids, Notifiable, UserTrackable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -58,7 +59,7 @@ class User extends Authenticatable
         return $this->belongsTo(Store::class);
     }
 
-    public function allow($permission, $abort = false)
+    public function can($permission, $abort = false)
     {
         if ($this->role_id == null) {
             return true;

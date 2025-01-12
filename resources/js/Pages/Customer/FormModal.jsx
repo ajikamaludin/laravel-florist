@@ -8,7 +8,7 @@ import TextInput from '@/Components/DaisyUI/TextInput'
 import TextareaInput from '@/Components/DaisyUI/TextareaInput'
 
 export default function FormModal(props) {
-    const { modalState } = props
+    const { modalState, callback } = props
     const { data, setData, post, put, processing, errors, reset, clearErrors } =
         useForm({
             name: '',
@@ -48,7 +48,16 @@ export default function FormModal(props) {
             return
         }
         post(route('customers.store'), {
-            onSuccess: () => handleClose(),
+            onSuccess: ({
+                props: {
+                    flash: {
+                        data: { customer },
+                    },
+                },
+            }) => {
+                callback(customer)
+                handleClose()
+            },
         })
     }
 

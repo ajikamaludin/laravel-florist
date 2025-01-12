@@ -32,6 +32,17 @@ class DefaultSeeder extends Seeder
             TypeStatus::query()->create(['name' => $p]);
         }
 
+        $cabang = Role::query()->create(['name' => 'toko cabang']);
+
+        $permissions = Permission::query()
+            ->where('name', '==', 'view-dashboard')
+            ->where('name', '==', 'view-order')
+            ->get();
+
+        foreach ($permissions as $permission) {
+            $cabang->rolePermissions()->create(['permission_id' => $permission->id]);
+        }
+
         $role = Role::query()->create(['name' => 'admin']);
 
         $permissions = Permission::all();
@@ -53,6 +64,15 @@ class DefaultSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
             'role_id' => $role->id,
+            'store_id' => $store->id,
+        ]);
+
+        $store = Store::query()->create(['name' => 'Cabang', 'city' => 'Surabaya']);
+        User::create([
+            'name' => 'Cabang',
+            'email' => 'cabang@admin.com',
+            'password' => bcrypt('password'),
+            'role_id' => $cabang->id,
             'store_id' => $store->id,
         ]);
     }

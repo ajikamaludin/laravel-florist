@@ -93,6 +93,9 @@ export default function SidebarNav({ user, show, setShow }) {
     const {
         props: {
             app: { app_name },
+            auth: {
+                user: { store },
+            },
             navigation,
         },
     } = usePage()
@@ -131,6 +134,9 @@ export default function SidebarNav({ user, show, setShow }) {
                             >
                                 {app_name}
                             </Link>
+                            <div className="text-center font-light text-sm">
+                                {store.name}
+                            </div>
                         </div>
                         <div
                             className="block md:hidden"

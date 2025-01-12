@@ -23,7 +23,6 @@ return new class extends Migration
             $table->ulid('courier_id')->nullable();
             $table->ulid('status_id')->nullable();
             $table->ulid('inputed_user_id')->nullable();
-            $table->ulid('flower_image_id')->nullable();
             // 
             $table->string('code')->nullable();
             $table->timestamp('order_date')->nullable();
@@ -38,6 +37,10 @@ return new class extends Migration
             $table->time('time_start')->nullable();
             $table->time('time_done')->nullable();
             $table->time('shiped_time')->nullable();
+            $table->string('ship_customer_phone')->nullable();
+            $table->text('ship_customer_adress')->nullable();
+            $table->string('ship_customer_city')->nullable();
+            $table->string('flower_image')->nullable();
             //
             $table->timestamps();
             $table->softDeletes();

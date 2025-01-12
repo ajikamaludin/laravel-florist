@@ -18,6 +18,30 @@ class MenuConstant
                 'permission' => 'view-dashboard',
             ],
             [
+                'name' => 'Order',
+                'show' => true,
+                'icon' => 'HiClipboardDocumentList',
+                'route' => route('orders.index'),
+                'active' => 'orders.*',
+                'permission' => 'view-order',
+            ],
+            [
+                'name' => 'Customer',
+                'show' => true,
+                'icon' => 'HiUserGroup',
+                'route' => route('customers.index'),
+                'active' => 'customers.*',
+                'permission' => 'view-customer',
+            ],
+            [
+                'name' => 'Kurir',
+                'show' => true,
+                'icon' => 'HiTruck',
+                'route' => route('couriers.index'),
+                'active' => 'couriers.*',
+                'permission' => 'view-courier',
+            ],
+            [
                 'name' => 'User',
                 'show' => true,
                 'icon' => 'HiUser',
@@ -89,23 +113,6 @@ class MenuConstant
             ],
 
             // # Add Generated Menu Here!
-
-            [
-                'name' => 'Customer',
-                'show' => true,
-                'icon' => 'HiUserGroup',
-                'route' => route('customers.index'),
-                'active' => 'customers.*',
-                'permission' => 'view-customer',
-            ],
-            [
-                'name' => 'Kurir',
-                'show' => true,
-                'icon' => 'HiTruck',
-                'route' => route('couriers.index'),
-                'active' => 'couriers.*',
-                'permission' => 'view-courier',
-            ],
 
         ];
 

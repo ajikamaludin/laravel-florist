@@ -25,7 +25,7 @@ import Spinner from '@/Components/DaisyUI/Spinner'
  *     data={{
  *         table: 'roles',
  *         display_name: 'id|name',
- *         orderby: 'created_at.asc',
+ *         orderby: 'updated_at.desc',
  *     }}
  * />
  */

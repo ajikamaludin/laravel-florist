@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { isEmpty } from 'lodash'
 
 export const formatDate = (date) => {
-    if (!isEmpty(date)) {
+    if (isEmpty(date) === true) {
         return ''
     }
     return dayjs(date).format('DD/MM/YYYY')

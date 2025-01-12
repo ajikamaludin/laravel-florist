@@ -19,44 +19,44 @@ class PermissionConstant
 
         ['label' => 'View Setting', 'name' => 'view-setting'],
 
-        // Modules Permissions
-        ['label' => 'View Shortlink', 'name' => 'view-shortlink'],
-
-        ['label' => 'Create Custom Form', 'name' => 'create-custom-form'],
-        ['label' => 'Update Custom Form', 'name' => 'update-custom-form'],
-        ['label' => 'View Custom Form', 'name' => 'view-custom-form'],
-        ['label' => 'Delete Custom Form', 'name' => 'delete-custom-form'],
-
-        ['label' => 'Create Custom Form Record', 'name' => 'create-custom-form-record'],
-        ['label' => 'Update Custom Form Record', 'name' => 'update-custom-form-record'],
-        ['label' => 'View Custom Form Record', 'name' => 'view-custom-form-record'],
-        ['label' => 'Delete Custom Form Record', 'name' => 'delete-custom-form-record'],
-
+        ['label' => 'View Order All', 'name' => 'view-order-all'],
+        ['label' => 'View Order Price', 'name' => 'view-order-price'],
         // #Add New Permission Below!
-		['label' => 'Delete Customer', 'name' => 'delete-customer'],
-		['label' => 'Update Customer', 'name' => 'update-customer'],
-		['label' => 'Create Customer', 'name' => 'create-customer'],
-		['label' => 'View Customer', 'name' => 'view-customer'],
+        ['label' => 'Delete Order', 'name' => 'delete-order'],
+        ['label' => 'Update Order', 'name' => 'update-order'],
+        ['label' => 'Create Order', 'name' => 'create-order'],
+        ['label' => 'View Order', 'name' => 'view-order'],
+
+        ['label' => 'Delete Customer', 'name' => 'delete-customer'],
+        ['label' => 'Update Customer', 'name' => 'update-customer'],
+        ['label' => 'Create Customer', 'name' => 'create-customer'],
+        ['label' => 'View Customer', 'name' => 'view-customer'],
+
         ['label' => 'Delete Kurir', 'name' => 'delete-courier'],
         ['label' => 'Update Kurir', 'name' => 'update-courier'],
         ['label' => 'Create Kurir', 'name' => 'create-courier'],
         ['label' => 'View Kurir', 'name' => 'view-courier'],
+
         ['label' => 'Delete Status', 'name' => 'delete-typeStatus'],
         ['label' => 'Update Status', 'name' => 'update-typeStatus'],
         ['label' => 'Create Status', 'name' => 'create-typeStatus'],
         ['label' => 'View Status', 'name' => 'view-typeStatus'],
+
         ['label' => 'Delete Jambul', 'name' => 'delete-typeCrest'],
         ['label' => 'Update Jambul', 'name' => 'update-typeCrest'],
         ['label' => 'Create Jambul', 'name' => 'create-typeCrest'],
         ['label' => 'View Jambul', 'name' => 'view-typeCrest'],
+
         ['label' => 'Delete Size', 'name' => 'delete-typeSize'],
         ['label' => 'Update Size', 'name' => 'update-typeSize'],
         ['label' => 'Create Size', 'name' => 'create-typeSize'],
         ['label' => 'View Size', 'name' => 'view-typeSize'],
+
         ['label' => 'Delete Jenis Bunga', 'name' => 'delete-typeFlower'],
         ['label' => 'Update Jenis Bunga', 'name' => 'update-typeFlower'],
         ['label' => 'Create Jenis Bunga', 'name' => 'create-typeFlower'],
         ['label' => 'View Jenis Bunga', 'name' => 'view-typeFlower'],
+
         ['label' => 'Delete Toko', 'name' => 'delete-store'],
         ['label' => 'Update Toko', 'name' => 'update-store'],
         ['label' => 'Create Toko', 'name' => 'create-store'],

@@ -33,10 +33,16 @@ class GeneralController extends Controller
 
     public function sheets()
     {
-        $sheets = Sheets::spreadsheet('1RjlP9mheamb8_XNbtj06Re_sYFAwzcrbLXVx2zHgiqQ')
-            ->sheet('Sheet1')
+        $sheets = Sheets::spreadsheet(env("SHEET_ID"))
+            ->sheet('Order')
             ->get();
 
-        dd($sheets);
+        $header = $sheets->pull(0);
+
+        $sheets = Sheets::collection($header, $sheets);
+
+        $order = $sheets->pluck('Nomor Pesanan')->search(1); //0 == 2, maka index + 2
+
+        Sheets::sheet('Order')->range('A' . $order + 2)->update([['3', 'name3', 'mail3']]);
     }
 }

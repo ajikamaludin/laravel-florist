@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
+use App\Services\SheetService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -42,6 +43,11 @@ class StoreController extends Controller
             'address' => $request->address,
         ]);
 
+        try {
+            SheetService::store()->append([[$request->name, $request->city, $request->phone, $request->address]]);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
+        }
         return redirect()->route('stores.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed created']);
     }
@@ -55,6 +61,7 @@ class StoreController extends Controller
             'address' => 'nullable|string',
         ]);
 
+        $key = $store->name;
         $store->fill([
             'name' => $request->name,
             'city' => $request->city,
@@ -63,6 +70,12 @@ class StoreController extends Controller
         ]);
 
         $store->save();
+
+        try {
+            SheetService::update_store($key, [$request->name, $request->city, $request->phone, $request->address]);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
+        }
 
         return redirect()->route('stores.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
@@ -73,6 +86,12 @@ class StoreController extends Controller
         if ($store->users()->count() > 0) {
             return redirect()->route('stores.index')
                 ->with('message', ['type' => 'error', 'message' => 'Tidak dapat menghapus toko yang memiliki users']);
+        }
+
+        try {
+            SheetService::delete_store($store->name);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
         }
 
         $store->delete();

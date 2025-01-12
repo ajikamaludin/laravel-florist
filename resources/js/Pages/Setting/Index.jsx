@@ -66,6 +66,11 @@ export default function Setting(props) {
                         url={app_logo_url}
                         filemimes="image/jpg,image/jpeg,image/png"
                     />
+                    <TextInput
+                        label={'Sheet Email'}
+                        readOnly={true}
+                        value="google-sheet-app@mycloud-217610.iam.gserviceaccount.com"
+                    />
                     <div className="mt-4">
                         <Button
                             onClick={handleSubmit}

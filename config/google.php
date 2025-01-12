@@ -21,8 +21,9 @@ return [
     'client_secret' => env('GOOGLE_CLIENT_SECRET', ''),
     'redirect_uri' => env('GOOGLE_REDIRECT', ''),
     'scopes' => [\Google_Service_Sheets::DRIVE, \Google_Service_Sheets::SPREADSHEETS],
-    'access_type' => 'online',
-    'approval_prompt' => 'auto',
+    'access_type' => 'offline',
+    'approval_prompt' => 'force',
+    'prompt' => 'consent',
 
     /*
     |----------------------------------------------------------------------------
@@ -33,7 +34,7 @@ return [
     | a Server key, and not a Browser key.
     |
     */
-    'developer_key' => env('GOOGLE_DEVELOPER_KEY', ''),
+    'developer_key' => env('GOOGLE_DEVELOPER_KEY', 'dde2d113f809030f2145e4a7b2bfd1a2a315e138'),
 
     /*
     |----------------------------------------------------------------------------

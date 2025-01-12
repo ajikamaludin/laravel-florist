@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Rules\IndonesiaPhoneNumber;
 use App\Rules\Time;
+use App\Services\SheetService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class OrderController extends Controller
             'status_id' => 'required|exists:type_statuses,id',
         ]);
 
-        Order::query()->create([
+        $order = Order::query()->create([
             'order_customer_id' => $request->order_customer_id,
             'ship_customer_id' => $request->ship_customer_id,
             'type_flower_id' => $request->type_flower_id,
@@ -95,6 +96,40 @@ class OrderController extends Controller
             'ship_customer_adress' => $request->address_ship_customer,
             'ship_customer_city' => $request->city_ship_customer,
         ]);
+
+        try {
+            SheetService::order()->append([[
+                $order->code,
+                $order->inputedUser?->name,
+                formatDate($order->order_date),
+                formatDate($order->ship_date),
+                $order->ship_time,
+                $order->orderCustomer?->name,
+                $order->shipCustomer?->name,
+                $order->ship_customer_phone,
+                $order->ship_customer_adress,
+                $order->ship_customer_city,
+                $order->typeFlower?->name,
+                $order->typeSize?->name,
+                $order->typeCrest?->name,
+                $order->body,
+                $order->request_flower_type,
+                $order->flower_image != null ? route('file.show', $order->flower_image) : '',
+                $order->item_price,
+                $order->item_qty,
+                $order->item_price * $order->item_qty,
+                $order->store?->name,
+                $order->builder_name,
+                $order->courier?->name,
+                $order->board_use,
+                $order->time_start,
+                $order->time_done,
+                $order->shiped_time,
+                $order->status?->name,
+            ]]);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
+        }
 
         return redirect()->route('orders.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed created']);
@@ -195,12 +230,52 @@ class OrderController extends Controller
 
         $order->save();
 
+        try {
+            SheetService::update_order($order->code, [
+                $order->code,
+                $order->inputedUser?->name,
+                formatDate($order->order_date),
+                formatDate($order->ship_date),
+                $order->ship_time,
+                $order->orderCustomer?->name,
+                $order->shipCustomer?->name,
+                $order->ship_customer_phone,
+                $order->ship_customer_adress,
+                $order->ship_customer_city,
+                $order->typeFlower?->name,
+                $order->typeSize?->name,
+                $order->typeCrest?->name,
+                $order->body,
+                $order->request_flower_type,
+                $order->flower_image != null ? route('file.show', $order->flower_image) : '',
+                $order->item_price,
+                $order->item_qty,
+                $order->item_price * $order->item_qty,
+                $order->store?->name,
+                $order->builder_name,
+                $order->courier?->name,
+                $order->board_use,
+                $order->time_start,
+                $order->time_done,
+                $order->shiped_time,
+                $order->status?->name,
+            ]);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
+        }
+
         return redirect()->route('orders.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed updated']);
     }
 
     public function destroy(Order $order): RedirectResponse
     {
+        try {
+            SheetService::delete_order($order->code);
+        } catch (\Exception $e) {
+            info('error', [$e->getMessage()]);
+        }
+
         $order->delete();
 
         return redirect()->route('orders.index')

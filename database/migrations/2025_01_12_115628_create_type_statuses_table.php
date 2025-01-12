@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('form_records', function (Blueprint $table) {
+        Schema::create('type_statuses', function (Blueprint $table) {
             $table->ulid('id')->primary();
             //
-            $table->ulid('form_id');
-            $table->jsonb('fields');
+            $table->string('name')->nullable();
             //
             $table->timestamps();
             $table->softDeletes();
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('form_records');
+        Schema::dropIfExists('type_statuses');
     }
 };

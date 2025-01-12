@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { router, Head } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
-import { Head, Link } from '@inertiajs/react'
 import { HiPencil, HiTrash } from 'react-icons/hi2'
 import { useModalState } from '@/hooks'
 
+import HasPermission from '@/Components/Common/HasPermission'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/DaisyUI/Pagination'
 import ModalConfirm from '@/Components/DaisyUI/ModalConfirm'
 import SearchInput from '@/Components/DaisyUI/SearchInput'
-import HasPermission from '@/Components/Common/HasPermission'
-import Dropdown from '@/Components/DaisyUI/Dropdown'
 import Button from '@/Components/DaisyUI/Button'
+import Dropdown from '@/Components/DaisyUI/Dropdown'
 import Card from '@/Components/DaisyUI/Card'
+import FormModal from './FormModal'
 
 export default function Index(props) {
     const {
@@ -23,15 +23,21 @@ export default function Index(props) {
     const preValue = usePrevious(search)
 
     const confirmModal = useModalState()
+    const formModal = useModalState()
 
-    const handleDeleteClick = ({{ model }}) => {
-        confirmModal.setData({{ model }})
+    const toggleFormModal = (typeCrest = null) => {
+        formModal.setData(typeCrest)
+        formModal.toggle()
+    }
+
+    const handleDeleteClick = (typeCrest) => {
+        confirmModal.setData(typeCrest)
         confirmModal.toggle()
     }
 
     const onDelete = () => {
         if (confirmModal.data !== null) {
-            router.delete(route('{{ models }}.destroy', confirmModal.data.id))
+            router.delete(route('type-crests.destroy', confirmModal.data.id))
         }
     }
 
@@ -50,20 +56,21 @@ export default function Index(props) {
     }, [search])
 
     return (
-        <AuthenticatedLayout page={'System'} action={'{{ Model }}'}>
-            <Head title="{{ Model }}" />
+        <AuthenticatedLayout page={'System'} action={'Jambul'}>
+            <Head title="Jambul" />
 
             <div>
                 <Card>
-                    <div className="flex justify-between">
-                        <HasPermission p="create-{{ model }}">
-                            <Link href={route('{{ models }}.create')}>
-                                <Button size="sm" type="primary">
-                                    Tambah
-                                </Button>
-                            </Link>
+                    <div className="flex justify-between mb-4">
+                        <HasPermission p="create-typeCrest">
+                            <Button
+                                size="sm"
+                                onClick={() => toggleFormModal()}
+                                type="primary"
+                            >
+                                Tambah
+                            </Button>
                         </HasPermission>
-
                         <div className="flex items-center">
                             <SearchInput
                                 onChange={(e) => setSearch(e.target.value)}
@@ -72,7 +79,7 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        <table className="table mb-4">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -80,19 +87,16 @@ export default function Index(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map(({{ model }}, index) => (
-                                    <tr key={{{ model }}.id}>
-                                        <td>{{{ model }}.name}</td>
-                                        <td className="text-right">
+                                {data.map((typeCrest, index) => (
+                                    <tr key={typeCrest.id}>
+                                        <td>{typeCrest.name}</td>
+                                        <td className="text-end">
                                             <Dropdown>
-                                                <HasPermission p="update-{{ model }}">
+                                                <HasPermission p="update-typeCrest">
                                                     <Dropdown.Item
                                                         onClick={() =>
-                                                            router.visit(
-                                                                route(
-                                                                    '{{ models }}.edit',
-                                                                    {{ model }}
-                                                                )
+                                                            toggleFormModal(
+                                                                typeCrest
                                                             )
                                                         }
                                                     >
@@ -102,11 +106,11 @@ export default function Index(props) {
                                                         </div>
                                                     </Dropdown.Item>
                                                 </HasPermission>
-                                                <HasPermission p="delete-{{ model }}">
+                                                <HasPermission p="delete-typeCrest">
                                                     <Dropdown.Item
                                                         onClick={() =>
                                                             handleDeleteClick(
-                                                                {{ model }}
+                                                                typeCrest
                                                             )
                                                         }
                                                     >
@@ -128,7 +132,8 @@ export default function Index(props) {
                     </div>
                 </Card>
             </div>
-            <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
+            <ModalConfirm onConfirm={onDelete} modalState={confirmModal} />
+            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

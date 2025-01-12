@@ -42,38 +42,72 @@ class MenuConstant
                 'name' => 'Setting',
                 'show' => true,
                 'icon' => 'HiCog',
-                'route' => route('setting.index'),
-                'active' => 'setting.index',
-                'permission' => 'view-setting',
+                'items' => [
+                    [
+                        'name' => 'General',
+                        'show' => true,
+                        'route' => route('setting.index'),
+                        'active' => 'setting.index',
+                        'permission' => 'view-setting',
+                    ],
+                    [
+                        'name' => 'Toko',
+                        'show' => true,
+                        'route' => route('stores.index'),
+                        'active' => 'stores.*',
+                        'permission' => 'view-store',
+                    ],
+                    [
+                        'name' => 'Status',
+                        'show' => true,
+                        'route' => route('type-statuses.index'),
+                        'active' => 'type-statuses.*',
+                        'permission' => 'view-typeStatus',
+                    ],
+                    [
+                        'name' => 'Jambul',
+                        'show' => true,
+                        'route' => route('type-crests.index'),
+                        'active' => 'type-crests.*',
+                        'permission' => 'view-typeCrest',
+                    ],
+                    [
+                        'name' => 'Size',
+                        'show' => true,
+                        'route' => route('type-sizes.index'),
+                        'active' => 'type-sizes.*',
+                        'permission' => 'view-typeSize',
+                    ],
+                    [
+                        'name' => 'Jenis Bunga',
+                        'show' => true,
+                        'route' => route('type-flowers.index'),
+                        'active' => 'type-flowers.*',
+                        'permission' => 'view-typeFlower',
+                    ],
+                ]
             ],
 
             // # Add Generated Menu Here!
-        ];
 
-        if (Route::has('shortlink.link.index')) {
-            $menu = array_merge(
-                $menu,
-                [[
-                    'name' => 'Shortlink',
-                    'show' => true,
-                    'icon' => 'HiGlobeAlt',
-                    'route' => route('shortlink.link.index'),
-                    'active' => 'shortlink.link.*',
-                    'permission' => 'view-shortlink',
-                ]],
-            );
-        }
-
-        if (Route::has('custom-form.forms.index')) {
-            $menu = array_merge($menu, [[
-                'name' => 'Custom Form',
+            [
+                'name' => 'Customer',
                 'show' => true,
-                'icon' => 'HiInformationCircle',
-                'route' => route('custom-form.forms.index'),
-                'active' => 'custom-form.forms.*',
-                'permission' => 'view-custom-form',
-            ]]);
-        }
+                'icon' => 'HiUserGroup',
+                'route' => route('customers.index'),
+                'active' => 'customers.*',
+                'permission' => 'view-customer',
+            ],
+            [
+                'name' => 'Kurir',
+                'show' => true,
+                'icon' => 'HiTruck',
+                'route' => route('couriers.index'),
+                'active' => 'couriers.*',
+                'permission' => 'view-courier',
+            ],
+
+        ];
 
         return $menu;
     }

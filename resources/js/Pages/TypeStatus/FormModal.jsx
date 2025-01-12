@@ -36,30 +36,34 @@ export default function FormModal(props) {
     }
 
     const handleSubmit = () => {
-        const {{ model }} = modalState.data
-        if ({{ model }} !== null) {
-            put(route('{{ models }}.update', {{ model }}), {
+        const typeStatus = modalState.data
+        if (typeStatus !== null) {
+            put(route('type-statuses.update', typeStatus), {
                 onSuccess: () => handleClose(),
             })
             return
         }
-        post(route('{{ models }}.store'), {
+        post(route('type-statuses.store'), {
             onSuccess: () => handleClose(),
         })
     }
 
     useEffect(() => {
-        const {{ model }} = modalState.data
-        if (isEmpty({{ model }}) === false) {
+        const typeStatus = modalState.data
+        if (isEmpty(typeStatus) === false) {
             setData({
-                name: {{ model }}.name
+                name: typeStatus.name,
             })
             return
         }
     }, [modalState])
 
     return (
-        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'{{ Model }}'}>
+        <Modal
+            isOpen={modalState.isOpen}
+            onClose={handleClose}
+            title={'Status'}
+        >
             <div className="form-control space-y-2.5">
                 <TextInput
                     name="name"

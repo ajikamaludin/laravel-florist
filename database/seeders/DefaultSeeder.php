@@ -8,6 +8,8 @@ use App\Models\Default\Permission;
 use App\Models\Default\Role;
 use App\Models\Default\Setting;
 use App\Models\Default\User;
+use App\Models\Store;
+use App\Models\TypeStatus;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -26,17 +28,24 @@ class DefaultSeeder extends Seeder
             Permission::insert(['id' => Str::ulid(), ...$permission]);
         }
 
-        $role = Role::create(['name' => 'admin']);
+        foreach (['Order', 'Proses', 'Kirim', 'Selesai'] as $p) {
+            TypeStatus::query()->create(['name' => $p]);
+        }
+
+        $role = Role::query()->create(['name' => 'admin']);
 
         $permissions = Permission::all();
         foreach ($permissions as $permission) {
             $role->rolePermissions()->create(['permission_id' => $permission->id]);
         }
 
+        $store = Store::query()->create(['name' => 'Pusat', 'city' => 'Yogyarkarta']);
+
         User::create([
             'name' => 'Super Administrator',
             'email' => 'root@admin.com',
             'password' => bcrypt('password'),
+            'store_id' => $store->id,
         ]);
 
         User::create([
@@ -44,10 +53,7 @@ class DefaultSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
             'role_id' => $role->id,
+            'store_id' => $store->id,
         ]);
-
-        $guest = Role::create(['name' => Role::GUEST]);
-        $permission = Permission::where('name', 'view-shortlink')->first();
-        $guest->rolePermissions()->create(['permission_id' => $permission->id]);
     }
 }

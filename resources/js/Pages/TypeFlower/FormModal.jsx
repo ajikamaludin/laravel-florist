@@ -36,30 +36,30 @@ export default function FormModal(props) {
     }
 
     const handleSubmit = () => {
-        const {{ model }} = modalState.data
-        if ({{ model }} !== null) {
-            put(route('{{ models }}.update', {{ model }}), {
+        const typeFlower = modalState.data
+        if (typeFlower !== null) {
+            put(route('type-flowers.update', typeFlower), {
                 onSuccess: () => handleClose(),
             })
             return
         }
-        post(route('{{ models }}.store'), {
+        post(route('type-flowers.store'), {
             onSuccess: () => handleClose(),
         })
     }
 
     useEffect(() => {
-        const {{ model }} = modalState.data
-        if (isEmpty({{ model }}) === false) {
+        const typeFlower = modalState.data
+        if (isEmpty(typeFlower) === false) {
             setData({
-                name: {{ model }}.name
+                name: typeFlower.name,
             })
             return
         }
     }, [modalState])
 
     return (
-        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'{{ Model }}'}>
+        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'Bunga'}>
             <div className="form-control space-y-2.5">
                 <TextInput
                     name="name"

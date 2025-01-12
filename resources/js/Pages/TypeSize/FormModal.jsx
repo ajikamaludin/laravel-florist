@@ -36,30 +36,30 @@ export default function FormModal(props) {
     }
 
     const handleSubmit = () => {
-        const {{ model }} = modalState.data
-        if ({{ model }} !== null) {
-            put(route('{{ models }}.update', {{ model }}), {
+        const typeSize = modalState.data
+        if (typeSize !== null) {
+            put(route('type-sizes.update', typeSize), {
                 onSuccess: () => handleClose(),
             })
             return
         }
-        post(route('{{ models }}.store'), {
+        post(route('type-sizes.store'), {
             onSuccess: () => handleClose(),
         })
     }
 
     useEffect(() => {
-        const {{ model }} = modalState.data
-        if (isEmpty({{ model }}) === false) {
+        const typeSize = modalState.data
+        if (isEmpty(typeSize) === false) {
             setData({
-                name: {{ model }}.name
+                name: typeSize.name,
             })
             return
         }
     }, [modalState])
 
     return (
-        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'{{ Model }}'}>
+        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'Size'}>
             <div className="form-control space-y-2.5">
                 <TextInput
                     name="name"

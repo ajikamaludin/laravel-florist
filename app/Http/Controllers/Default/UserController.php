@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $request->user()->allow('view-user', true);
 
-        $query = User::query()->with(['role']);
+        $query = User::query()->with(['role', 'store']);
 
         if ($request->q) {
             $query->where('name', 'like', "%{$request->q}%");
@@ -34,6 +34,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|max:255',
             'role_id' => 'required|ulid|exists:roles,id',
+            'store_id' => 'required|ulid|exists:stores,id',
         ]);
 
         User::create([
@@ -41,6 +42,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
+            'store_id' => $request->store_id,
         ]);
 
         return redirect()->route('user.index')
@@ -53,6 +55,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|max:255',
+            'store_id' => 'required|ulid|exists:stores,id',
         ]);
 
         if ($user->role != null) {
@@ -65,6 +68,7 @@ class UserController extends Controller
             'email' => $request->email,
             'name' => $request->name,
             'role_id' => $request->role_id,
+            'store_id' => $request->store_id,
         ]);
 
         if ($request->password != '') {

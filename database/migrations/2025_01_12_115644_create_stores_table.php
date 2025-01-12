@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('link_visitors', function (Blueprint $table) {
+        Schema::create('stores', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->uuid('link_id');
-            $table->text('request')->nullable();
-            $table->text('header')->nullable();
-            $table->string('device')->nullable();
-            $table->string('platform')->nullable();
-            $table->string('browser')->nullable();
-            $table->string('languages')->nullable();
-            $table->string('ip')->nullable();
-            $table->string('useragent')->nullable();
-            $table->string('user_id')->nullable();
+            //
+            $table->string('name')->nullable();
+            $table->string('city')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
+            //
             $table->timestamps();
             $table->softDeletes();
             $table->ulid('created_by')->nullable();
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('link_visitors');
+        Schema::dropIfExists('stores');
     }
 };

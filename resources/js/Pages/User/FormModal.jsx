@@ -16,6 +16,8 @@ export default function FormModal(props) {
             password: '',
             role_id: null,
             role: '',
+            store_id: null,
+            store: '',
         })
 
     const handleOnChange = (event) => {
@@ -56,13 +58,7 @@ export default function FormModal(props) {
     useEffect(() => {
         const user = modalState.data
         if (isEmpty(user) === false) {
-            setData({
-                name: user.name,
-                email: user.email,
-                role_id: user.role_id,
-                role: user.role,
-                password: '',
-            })
+            setData(user)
             return
         }
     }, [modalState])
@@ -112,6 +108,26 @@ export default function FormModal(props) {
                             params={{
                                 table: 'roles',
                                 columns: 'id|name',
+                                orderby: 'created_at.asc',
+                            }}
+                        />
+                        <SelectModalInput
+                            label="Toko"
+                            value={data.store}
+                            onChange={(item) =>
+                                setData({
+                                    ...data,
+                                    store: item,
+                                    store_id: item ? item.id : null,
+                                })
+                            }
+                            onRemove={() =>
+                                setData({ ...data, store: '', store_id: null })
+                            }
+                            error={errors.store_id}
+                            params={{
+                                table: 'stores',
+                                columns: 'id|name|city',
                                 orderby: 'created_at.asc',
                             }}
                         />

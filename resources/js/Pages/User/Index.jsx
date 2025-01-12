@@ -84,6 +84,7 @@ export default function Index(props) {
                                 <tr>
                                     <th>Name</th>
                                     <th>Role</th>
+                                    <th>Toko</th>
                                     <th />
                                 </tr>
                             </thead>
@@ -96,6 +97,7 @@ export default function Index(props) {
                                                 ? 'System'
                                                 : user.role?.name}
                                         </td>
+                                        <td>{user.store.name}</td>
                                         <td className="text-end">
                                             <Dropdown>
                                                 <HasPermission p="update-user">

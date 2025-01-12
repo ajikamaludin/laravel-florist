@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { router } from '@inertiajs/react'
+import { router, Head } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
-import { Head, Link } from '@inertiajs/react'
 import { HiPencil, HiTrash } from 'react-icons/hi2'
 import { useModalState } from '@/hooks'
 
+import HasPermission from '@/Components/Common/HasPermission'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Pagination from '@/Components/DaisyUI/Pagination'
 import ModalConfirm from '@/Components/DaisyUI/ModalConfirm'
 import SearchInput from '@/Components/DaisyUI/SearchInput'
-import HasPermission from '@/Components/Common/HasPermission'
-import Dropdown from '@/Components/DaisyUI/Dropdown'
 import Button from '@/Components/DaisyUI/Button'
+import Dropdown from '@/Components/DaisyUI/Dropdown'
 import Card from '@/Components/DaisyUI/Card'
+import FormModal from './FormModal'
 
 export default function Index(props) {
     const {
@@ -23,15 +23,21 @@ export default function Index(props) {
     const preValue = usePrevious(search)
 
     const confirmModal = useModalState()
+    const formModal = useModalState()
 
-    const handleDeleteClick = ({{ model }}) => {
-        confirmModal.setData({{ model }})
+    const toggleFormModal = (courier = null) => {
+        formModal.setData(courier)
+        formModal.toggle()
+    }
+
+    const handleDeleteClick = (courier) => {
+        confirmModal.setData(courier)
         confirmModal.toggle()
     }
 
     const onDelete = () => {
         if (confirmModal.data !== null) {
-            router.delete(route('{{ models }}.destroy', confirmModal.data.id))
+            router.delete(route('couriers.destroy', confirmModal.data.id))
         }
     }
 
@@ -50,20 +56,21 @@ export default function Index(props) {
     }, [search])
 
     return (
-        <AuthenticatedLayout page={'System'} action={'{{ Model }}'}>
-            <Head title="{{ Model }}" />
+        <AuthenticatedLayout page={'System'} action={'Kurir'}>
+            <Head title="Kurir" />
 
             <div>
                 <Card>
-                    <div className="flex justify-between">
-                        <HasPermission p="create-{{ model }}">
-                            <Link href={route('{{ models }}.create')}>
-                                <Button size="sm" type="primary">
-                                    Tambah
-                                </Button>
-                            </Link>
+                    <div className="flex justify-between mb-4">
+                        <HasPermission p="create-courier">
+                            <Button
+                                size="sm"
+                                onClick={() => toggleFormModal()}
+                                type="primary"
+                            >
+                                Tambah
+                            </Button>
                         </HasPermission>
-
                         <div className="flex items-center">
                             <SearchInput
                                 onChange={(e) => setSearch(e.target.value)}
@@ -72,27 +79,26 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        <table className="table mb-4">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Alamat</th>
                                     <th />
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map(({{ model }}, index) => (
-                                    <tr key={{{ model }}.id}>
-                                        <td>{{{ model }}.name}</td>
-                                        <td className="text-right">
+                                {data.map((courier, index) => (
+                                    <tr key={courier.id}>
+                                        <td>{courier.name}</td>
+                                        <td>{courier.address}</td>
+                                        <td className="text-end">
                                             <Dropdown>
-                                                <HasPermission p="update-{{ model }}">
+                                                <HasPermission p="update-courier">
                                                     <Dropdown.Item
                                                         onClick={() =>
-                                                            router.visit(
-                                                                route(
-                                                                    '{{ models }}.edit',
-                                                                    {{ model }}
-                                                                )
+                                                            toggleFormModal(
+                                                                courier
                                                             )
                                                         }
                                                     >
@@ -102,11 +108,11 @@ export default function Index(props) {
                                                         </div>
                                                     </Dropdown.Item>
                                                 </HasPermission>
-                                                <HasPermission p="delete-{{ model }}">
+                                                <HasPermission p="delete-courier">
                                                     <Dropdown.Item
                                                         onClick={() =>
                                                             handleDeleteClick(
-                                                                {{ model }}
+                                                                courier
                                                             )
                                                         }
                                                     >
@@ -128,7 +134,8 @@ export default function Index(props) {
                     </div>
                 </Card>
             </div>
-            <ModalConfirm modalState={confirmModal} onConfirm={onDelete} />
+            <ModalConfirm onConfirm={onDelete} modalState={confirmModal} />
+            <FormModal modalState={formModal} />
         </AuthenticatedLayout>
     )
 }

@@ -4,6 +4,7 @@ namespace App\Models\Default;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Store;
 use App\Models\Traits\UserTrackable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'password',
         'role_id',
         'reset_token',
+        'store_id',
     ];
 
     /**
@@ -49,6 +51,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function allow($permission, $abort = false)

@@ -11,6 +11,7 @@ export default function FormModal(props) {
     const { data, setData, post, put, processing, errors, reset, clearErrors } =
         useForm({
             name: '',
+            address: '',
         })
 
     const handleOnChange = (event) => {
@@ -36,30 +37,28 @@ export default function FormModal(props) {
     }
 
     const handleSubmit = () => {
-        const {{ model }} = modalState.data
-        if ({{ model }} !== null) {
-            put(route('{{ models }}.update', {{ model }}), {
+        const courier = modalState.data
+        if (courier !== null) {
+            put(route('couriers.update', courier), {
                 onSuccess: () => handleClose(),
             })
             return
         }
-        post(route('{{ models }}.store'), {
+        post(route('couriers.store'), {
             onSuccess: () => handleClose(),
         })
     }
 
     useEffect(() => {
-        const {{ model }} = modalState.data
-        if (isEmpty({{ model }}) === false) {
-            setData({
-                name: {{ model }}.name
-            })
+        const courier = modalState.data
+        if (isEmpty(courier) === false) {
+            setData(courier)
             return
         }
     }, [modalState])
 
     return (
-        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'{{ Model }}'}>
+        <Modal isOpen={modalState.isOpen} onClose={handleClose} title={'Kurir'}>
             <div className="form-control space-y-2.5">
                 <TextInput
                     name="name"
@@ -67,6 +66,13 @@ export default function FormModal(props) {
                     onChange={handleOnChange}
                     label="Nama"
                     error={errors.name}
+                />
+                <TextInput
+                    name="address"
+                    value={data.address}
+                    onChange={handleOnChange}
+                    label="Alamat"
+                    error={errors.address}
                 />
 
                 <div className="flex items-center space-x-2 mt-4">

@@ -15,7 +15,7 @@ class RoleController extends Controller
 {
     public function index(Request $request): Response
     {
-        $request->user()->allow('view-role', true);
+        $request->user()->can('view-role', true);
 
         $query = Role::query();
 

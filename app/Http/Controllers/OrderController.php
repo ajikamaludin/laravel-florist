@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Rules\IndonesiaPhoneNumber;
 use App\Rules\Time;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -204,5 +205,38 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')
             ->with('message', ['type' => 'success', 'message' => 'Item has beed deleted']);
+    }
+
+    public function print(Order $order)
+    {
+        $pdf = Pdf::loadView('prints/order', [
+            'order' => $order->load([
+                'orderCustomer',
+                'shipCustomer',
+                'typeFlower',
+                'typeSize',
+                'typeCrest',
+                'store',
+                'courier',
+                'status',
+                'inputedUser'
+            ]),
+        ])->setPaper('a4');
+
+        return $pdf->stream();
+
+        // return view('prints/order', [
+        //     'order' => $order->load([
+        //         'orderCustomer',
+        //         'shipCustomer',
+        //         'typeFlower',
+        //         'typeSize',
+        //         'typeCrest',
+        //         'store',
+        //         'courier',
+        //         'status',
+        //         'inputedUser'
+        //     ]),
+        // ]);
     }
 }

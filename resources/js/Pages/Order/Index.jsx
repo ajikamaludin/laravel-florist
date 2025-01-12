@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { router } from '@inertiajs/react'
 import { usePrevious } from 'react-use'
 import { Head, Link } from '@inertiajs/react'
-import { HiEye, HiPencil, HiTrash } from 'react-icons/hi2'
+import { HiEye, HiPencil, HiPrinter, HiTrash } from 'react-icons/hi2'
 import { useModalState } from '@/hooks'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
@@ -73,7 +73,7 @@ export default function Index(props) {
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="table">
+                        <table className="table mt-16">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -98,6 +98,19 @@ export default function Index(props) {
                                         <td>{order.status.name}</td>
                                         <td className="text-right">
                                             <Dropdown>
+                                                <Dropdown.Item>
+                                                    <a
+                                                        href={route(
+                                                            'order.print',
+                                                            order
+                                                        )}
+                                                        target="_blank"
+                                                        className="flex space-x-1 items-center"
+                                                    >
+                                                        <HiPrinter />
+                                                        <div>Print</div>
+                                                    </a>
+                                                </Dropdown.Item>
                                                 <Dropdown.Item
                                                     onClick={() =>
                                                         router.visit(
@@ -110,7 +123,9 @@ export default function Index(props) {
                                                 >
                                                     <div className="flex space-x-1 items-center">
                                                         <HiEye />
-                                                        <div>Detail</div>
+                                                        <div>
+                                                            Detail / Edit Status
+                                                        </div>
                                                     </div>
                                                 </Dropdown.Item>
                                                 <HasPermission p="update-order">

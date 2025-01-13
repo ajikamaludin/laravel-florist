@@ -36,7 +36,7 @@ class DefaultSeeder extends Seeder
 
         $permissions = Permission::query()
             ->where('name', '==', 'view-dashboard')
-            ->where('name', '==', 'view-order')
+            ->orWhere('name', '==', 'view-order')
             ->get();
 
         foreach ($permissions as $permission) {
